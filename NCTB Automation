@@ -1,0 +1,54 @@
+from selenium import webdriver
+import time
+
+driver = webdriver.Chrome(r"C:\Program Files (x86)\chromedriver.exe")
+
+f = open("Result.txt", "w")
+
+
+driver.get('http://www.educationboardresults.gov.bd/')
+i, j = 102694, 1712601499
+
+
+while(1):
+
+    year_select = driver.find_element_by_xpath('//*[@id="year"]')
+    TW = driver.find_element_by_xpath('//*[@id="year"]/option[5]')
+    TW.click()
+
+    select = driver.find_element_by_xpath('//*[@id="board"]')
+    rajshahi = driver.find_element_by_xpath('//*[@id="board"]/option[9]')
+    rajshahi.click()
+
+    roll = driver.find_element_by_xpath('//*[@id="roll"]')
+    roll.send_keys(i)
+
+    reg = driver.find_element_by_xpath('//*[@id="reg"]')
+    reg.send_keys(j)
+
+    chapcha = driver.find_element_by_xpath(
+        '/html/body/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/table/tbody/tr[2]/td/form/table/tbody/tr/td[2]/fieldset/table/tbody/tr[7]/td[2]').text
+    chapchaResult = eval(chapcha)
+    print(chapchaResult)
+
+    driver.find_element_by_xpath('//*[@id="value_s"]').send_keys(chapchaResult)
+    driver.find_element_by_xpath('//*[@id="button2"]').click()
+
+    name = driver.find_element_by_xpath(
+        '/html/body/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr[1]/td[4]').text
+    GPA = driver.find_element_by_xpath(
+        '/html/body/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr[6]/td[2]').text
+
+    f.write(f'Roll:{i}: Registration: {j}  Name: {name}  GPA: {GPA}\n')
+
+    i += 1
+    j += 1
+    driver.find_element_by_xpath(
+        '/html/body/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/table/tbody/tr[3]/td/a').click()
+
+
+# print(102694-102672)
+# print(1712601477+22)
+# 102672
+# 1712601508
+# 102703
